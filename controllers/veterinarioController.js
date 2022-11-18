@@ -23,7 +23,8 @@ const registrar = async (req, res) => {
 };
 
 const perfil = (req, res) => {
-  res.json({ msg: "Mostrando perfil.." });
+  const { veterinario } = req;
+  res.json({ veterinario });
 };
 
 const confirmar = async (req, res) => {
