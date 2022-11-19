@@ -24,15 +24,44 @@ const obtenerPaciente = async (req, res) => {
   const { id } = req.params;
   const paciente = await Paciente.findById(id);
 
+  if (!paciente) {
+    const error = new Error("No existe el paciente");
+    return res.status(404).json({ msg: error.message });
+  }
+
   if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
     return res.json({ msg: "Acción no válida" });
   }
 
-  if (paciente) {
-    res.json(paciente);
+  res.json(paciente);
+};
+const actualizarPaciente = async (req, res) => {
+  const { id } = req.params;
+  const paciente = await Paciente.findById(id);
+
+  if (!paciente) {
+    const error = new Error("No existe el paciente");
+    return res.status(404).json({ msg: error.message });
+  }
+
+  if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
+    return res.json({ msg: "Acción no válida" });
+  }
+
+  // Actualizar paciente
+
+  Object.keys(req.body).forEach(propiedad => {
+    if (req.body[propiedad]) {
+      paciente[propiedad] = req.body[propiedad];
+    }
+  });
+  try {
+    const pacienteActualizado = await paciente.save();
+    res.json(pacienteActualizado);
+  } catch (error) {
+    console.log(error);
   }
 };
-const actualizarPaciente = (req, res) => {};
 const eliminarPaciente = (req, res) => {};
 
 export {
