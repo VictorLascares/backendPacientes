@@ -11,7 +11,7 @@ const checkAuth = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.veterinario = await Veterinario.findById(decoded.id).select(
-        "-password -token -confirmado"
+        "-password -token -confirmed"
       );
       return next();
     } catch (error) {

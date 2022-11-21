@@ -40,7 +40,7 @@ const confirmar = async (req, res) => {
 
   try {
     usuarioConfirmar.token = null;
-    usuarioConfirmar.confirmado = true;
+    usuarioConfirmar.confirmed = true;
     await usuarioConfirmar.save();
     res.json({ msg: "Usuario confirmado correctamente" });
   } catch (error) {
@@ -60,7 +60,7 @@ const autenticar = async (req, res) => {
   }
 
   // Comprobar si el usuario esta confirmado
-  if (!usuario.confirmado) {
+  if (!usuario.confirmed) {
     const error = new Error("Usuario no esta confirmado");
     return res.status(403).json({ msg: error.message });
   }

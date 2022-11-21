@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import generarId from "../helpers/generarId.js";
 
 const veterinarioSchema = mongoose.Schema({
-  nombre: {
+  name: {
     type: String,
     required: true,
     trim: true,
@@ -18,7 +18,7 @@ const veterinarioSchema = mongoose.Schema({
     unique: true,
     trim: true,
   },
-  telefono: {
+  phone: {
     type: String,
     default: null,
     trim: true,
@@ -31,7 +31,7 @@ const veterinarioSchema = mongoose.Schema({
     type: String,
     default: generarId(),
   },
-  confirmado: {
+  confirmed: {
     type: Boolean,
     default: false,
   },
