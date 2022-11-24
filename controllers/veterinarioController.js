@@ -34,7 +34,7 @@ const registrar = async (req, res) => {
 
 const perfil = (req, res) => {
   const { veterinario } = req;
-  res.json({ veterinario });
+  res.json( veterinario );
 };
 
 const confirmar = async (req, res) => {
@@ -77,12 +77,12 @@ const autenticar = async (req, res) => {
   // Revisar el password
   if (await usuario.comprobarPassword(password)) {
     // Autenticar
-    res.json({ token: generarJWT(usuario.id) });
+    usuario.token = generarJWT();
+    res.json(usuario);
   } else {
     const error = new Error("Contraseña incorrecta");
     return res.status(403).json({ msg: error.message });
   }
-  res.json({ msg: "Usuario autenticado" });
 };
 
 const forgotPassword = async (req, res) => {
