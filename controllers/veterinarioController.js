@@ -77,8 +77,12 @@ const autenticar = async (req, res) => {
   // Revisar el password
   if (await usuario.comprobarPassword(password)) {
     // Autenticar
-    usuario.token = generarJWT();
-    res.json(usuario);
+    res.json({
+      _id: usuario._id,
+      name: usuario.name,
+      email: usuario.email,
+      token: generarJWT(usuario.id),
+    });
   } else {
     const error = new Error("Contraseña incorrecta");
     return res.status(403).json({ msg: error.message });
