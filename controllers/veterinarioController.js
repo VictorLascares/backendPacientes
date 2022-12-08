@@ -34,7 +34,7 @@ const registrar = async (req, res) => {
 
 const perfil = (req, res) => {
   const { veterinario } = req;
-  res.json( veterinario );
+  res.json(veterinario);
 };
 
 const confirmar = async (req, res) => {
@@ -143,6 +143,37 @@ const nuevoPassword = async (req, res) => {
     console.log(error);
   }
 };
+
+const updateProfile = async (req, res) => {
+  const veterinary = await Veterinario.findById(req.params.id);
+
+  if (!veterinary) {
+    const error = new Error("Ocurrio un error");
+    return res.status(400).json({ msg: error.message });
+  }
+
+  const { name, email, web, phone } = req.body;
+
+  if (veterinary.email !== email) {
+    const existEmail = await Veterinario.findOne({ email });
+    if (existEmail) {
+      const error = new Error("Email ya esta en uso");
+      return res.status(400).json({ msg: error.message });
+    }
+  }
+
+  try {
+    veterinary.name = name;
+    veterinary.email = email;
+    veterinary.web = web;
+    veterinary.phone = phone;
+    const updatedVeterinary = await veterinary.save();
+    res.json(updatedVeterinary);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   registrar,
   perfil,
@@ -151,4 +182,5 @@ export {
   forgotPassword,
   comprobarToken,
   nuevoPassword,
+  updateProfile,
 };
